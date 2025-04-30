@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task4Shana - Pengingat & To-Do List Pribadi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="4" width="8" height="4" fill="#05FFA1"/>
+                    <rect x="4" y="8" width="4" height="4" fill="#05FFA1"/>
+                    <rect x="16" y="8" width="4" height="4" fill="#05FFA1"/>
+                    <rect x="8" y="8" width="8" height="8" fill="#05FFA1"/>
+                    <rect x="4" y="12" width="4" height="4" fill="#05FFA1"/>
+                    <rect x="16" y="12" width="4" height="4" fill="#05FFA1"/>
+                    <rect x="8" y="16" width="8" height="4" fill="#05FFA1"/>
+                </svg>
+            </div>
+            <h1 class="loading-title">Task4Shana</h1>
+            <p class="loading-subtitle">Pengingat & To-Do List Pribadi Kamu
+                <h2 class="developer">By ell Web Dev</h2>
+            </p>
+            
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loadingBar"></div>
+            </div>
+            
+            <p class="loading-status" id="loadingStatus">Memuat aplikasi...</p>
+            
+            <div class="loading-tips">
+                <p id="loadingTip">Tips: Gunakan fitur Pomodoro Timer untuk meningkatkan fokus!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Task4Shana</h1>
+            <p>Pengingat & To-Do List Pribadi Kamu</p>
+            <div class="pixel-character">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="4" width="8" height="4" fill="#05FFA1"/>
+                    <rect x="4" y="8" width="4" height="4" fill="#05FFA1"/>
+                    <rect x="16" y="8" width="4" height="4" fill="#05FFA1"/>
+                    <rect x="8" y="8" width="8" height="8" fill="#05FFA1"/>
+                    <rect x="4" y="12" width="4" height="4" fill="#05FFA1"/>
+                    <rect x="16" y="12" width="4" height="4" fill="#05FFA1"/>
+                    <rect x="8" y="16" width="8" height="4" fill="#05FFA1"/>
+                </svg>
+            </div>
+            <div class="setting-icon">
+                <i class="fas fa-cog"></i>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="box">
+                <h2><i class="fas fa-plus-circle"></i> Tambah Tugas Baru</h2>
+                <div class="task-input">
+                    <input type="text" id="taskInput" placeholder="Masukkan tugas baru...">
+                    <select id="categorySelect">
+                        <option value="Sekolah">Sekolah</option>
+                        <option value="Pribadi">Pribadi</option>
+                        <option value="Game">Main Game</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                    <input type="date" id="taskDate">
+                    <button id="addTaskBtn"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+            
+            <div class="box">
+                <h2><i class="fas fa-chart-line"></i> Progress Tugas Kamu</h2>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p class="progress-text" id="progressText">Belum ada tugas yang selesai</p>
+                
+                <div class="task-stats">
+                    <div class="stat-box">
+                        <h4>Total Tugas</h4>
+                        <div class="stat-number" id="totalTasks">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Tugas Selesai</h4>
+                        <div class="stat-number" id="completedTasks">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Hari Ini</h4>
+                        <div class="stat-number" id="todayTasks">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Prioritas Tinggi</h4>
+                        <div class="stat-number" id="highPriorityTasks">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="box">
+                <h2><i class="fas fa-tasks"></i> Daftar Tugas</h2>
+                
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Cari tugas...">
+                </div>
+                
+                <div class="filter-badges">
+                    <div class="filter-badge" id="allFilter">Semua</div>
+                    <div class="filter-badge category-badge" id="schoolFilter">Sekolah</div>
+                    <div class="filter-badge category-badge" id="personalFilter">Pribadi</div>
+                    <div class="filter-badge category-badge" id="gameFilter">Game</div>
+                    <div class="filter-badge completed-badge" id="completedFilter">Selesai</div>
+                    <div class="filter-badge priority-badge" id="highPriorityFilter">Prioritas Tinggi</div>
+                </div>
+                
+                <ul class="task-list" id="taskList">
+                    <!-- Tasks will be added here -->
+                </ul>
+            </div>
+            
+            <div class="box">
+                <h2><i class="fas fa-stopwatch"></i> Pomodoro Timer</h2>
+                <div class="pomodoro-timer">
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                    <div class="timer-buttons">
+                        <button class="timer-btn start" id="startTimer"><i class="fas fa-play"></i> Mulai</button>
+                        <button class="timer-btn pause" id="pauseTimer"><i class="fas fa-pause"></i> Jeda</button>
+                        <button class="timer-btn reset" id="resetTimer"><i class="fas fa-redo"></i> Reset</button>
+                    </div>
+                    <div class="timer-mode">
+                        <button class="mode-btn active" id="workMode">Kerja (25m)</button>
+                        <button class="mode-btn" id="shortBreakMode">Istirahat Pendek (5m)</button>
+                        <button class="mode-btn" id="longBreakMode">Istirahat Panjang (15m)</button>
+                    </div>
+                </div>
+                
+                <div class="tip-container">
+                    <div class="tip-title"><i class="fas fa-lightbulb"></i> Tips Produktivitas</div>
+                    <div class="tip-text" id="productivityTip">Teknik Pomodoro: Bekerja selama 25 menit, lalu istirahat 5 menit. Setelah 4 sesi, istirahat lebih lama (15-30 menit).</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="box calendar">
+                <div class="calendar-header">
+                    <div class="calendar-nav">
+                        <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                        <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div id="calendarMonth">April 2025</div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar will be generated here -->
+                </div>
+            </div>
+            
+            <div class="box ells-note">
+                <h3>Ell's Note</h3>
+                <p id="dailyMotivation">HAII SAYANG JANGAN LUPA ISTIRAHATT YAA</p>
+            </div>
+            
+            <div class="box">
+                <h2><i class="fas fa-cloud-sun"></i> Cuaca Hari Ini di Bogor</h2>
+                <div class="weather-widget">
+                    <div class="weather-icon"><i class="fas fa-sun"></i></div>
+                    <div class="weather-temp">28°C</div>
+                    <div class="weather-desc">Cerah Berawan</div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="box statistics">
+            <h2><i class="fas fa-chart-line"></i> Statistik & Visualisasi</h2>
+            
+            <div class="analytics-tabs">
+                <button class="analytics-tab active" data-tab="productivity">Produktivitas</button>
+                <button class="analytics-tab" data-tab="categories">Kategori</button>
+                <button class="analytics-tab" data-tab="completion">Penyelesaian</button>
+                <button class="analytics-tab" data-tab="time">Performa Waktu</button>
+            </div>
+            
+            <div class="analytics-panels">
+                <!-- Panel Produktivitas -->
+                <div class="analytics-panel active" id="productivity-panel">
+                    <h3 class="analytics-title">Statistik Produktivitas Mingguan</h3>
+                    <div class="chart-container">
+                        <canvas id="weeklyProductivityChart"></canvas>
+                    </div>
+                    <div class="stats-summary">
+                        <div class="stat-item">
+                            <div class="stat-value" id="avgCompletionRate">0%</div>
+                            <div class="stat-label">Rata-rata Penyelesaian</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="mostProductiveDay">-</div>
+                            <div class="stat-label">Hari Paling Produktif</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="currentStreak">0</div>
+                            <div class="stat-label">Streak Saat Ini</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel Kategori -->
+                <div class="analytics-panel" id="categories-panel">
+                    <h3 class="analytics-title">Distribusi Tugas Berdasarkan Kategori</h3>
+                    <div class="chart-container">
+                        <canvas id="categoriesChart"></canvas>
+                    </div>
+                    <div class="category-stats">
+                        <div class="category-stat-row" id="categoryStatsList">
+                            <!-- Akan diisi dengan JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel Penyelesaian -->
+                <div class="analytics-panel" id="completion-panel">
+                    <h3 class="analytics-title">Performa Penyelesaian Tugas</h3>
+                    <div class="chart-container">
+                        <canvas id="completionChart"></canvas>
+                    </div>
+                    <div class="completion-time-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="avgCompletionTime">-</div>
+                            <div class="stat-label">Rata-rata Waktu Penyelesaian</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="completionRateByPriority">-</div>
+                            <div class="stat-label">Tingkat Penyelesaian Berdasarkan Prioritas</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Panel Performa Waktu -->
+                <div class="analytics-panel" id="time-panel">
+                    <h3 class="analytics-title">Pola Penyelesaian Berdasarkan Waktu</h3>
+                    <div class="chart-container">
+                        <canvas id="timePatternChart"></canvas>
+                    </div>
+                    <div class="time-pattern-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="bestTimeOfDay">-</div>
+                            <div class="stat-label">Waktu Terbaik dalam Sehari</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="tasksPerDay">0</div>
+                            <div class="stat-label">Rata-rata Tugas per Hari</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analytics-footer">
+                <div class="date-range-selector">
+                    <button class="date-range-btn active" data-range="week">Minggu Ini</button>
+                    <button class="date-range-btn" data-range="month">Bulan Ini</button>
+                    <button class="date-range-btn" data-range="year">Tahun Ini</button>
+                </div>
+                <button class="export-stats-btn"><i class="fas fa-download"></i> Ekspor Statistik</button>
+            </div>
+        </div>
+    
+        <div class="box photo-gallery">
+            <h3><i class="fas fa-images"></i> Galeri Foto</h3>
+            
+            <div class="gallery-container">
+                <!-- Carousel untuk foto-foto -->
+                <div class="gallery-carousel">
+                    <div class="carousel-inner" id="galleryCarousel">
+                        <!-- Foto placeholder sampai foto diupload -->
+                        <div class="carousel-item active">
+                            <div class="gallery-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>Belum ada foto</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigasi carousel -->
+                    <button class="carousel-nav prev" id="galleryPrev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-nav next" id="galleryNext">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Indikator posisi -->
+                    <div class="carousel-indicators" id="galleryIndicators">
+                        <!-- Indikator akan ditambahkan dengan JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Caption dan detail foto -->
+                <div class="photo-details">
+                    <div class="photo-title" id="photoTitle">Galeri Kenangan</div>
+                    <div class="photo-date" id="photoDate"></div>
+                    <div class="photo-description" id="photoDescription"></div>
+                </div>
+            </div>
+            
+            <!-- Kontrol galeri -->
+            <div class="gallery-controls">
+                <button class="gallery-btn add-photo" id="addPhotoBtn">
+                    <i class="fas fa-plus"></i> Tambah Foto
+                </button>
+                <button class="gallery-btn edit-photo" id="editPhotoBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="gallery-btn delete-photo" id="deletePhotoBtn">
+                    <i class="fas fa-trash"></i> Hapus
+                </button>
+            </div>
+        </div>
+        
+        <!-- Modal tambah/edit foto -->
+        <div class="modal" id="photoModal">
+            <div class="modal-content">
+                <button class="modal-close" id="photoModalClose"><i class="fas fa-times"></i></button>
+                <h3 class="modal-title" id="photoModalTitle">Tambah Foto Baru</h3>
+                
+                <div class="photo-upload-container">
+                    <div class="photo-preview" id="photoPreview">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Pratinjau Foto</p>
+                        </div>
+                    </div>
+                    
+                    <div class="photo-upload-btn">
+                        <label for="photoInput" class="upload-btn">
+                            <i class="fas fa-upload"></i> Pilih Foto
+                        </label>
+                        <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoTitleInput">Judul Foto</label>
+                    <input type="text" id="photoTitleInput" placeholder="Masukkan judul foto">
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoDescriptionInput">Deskripsi (Opsional)</label>
+                    <textarea id="photoDescriptionInput" placeholder="Ceritakan tentang foto ini..."></textarea>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn-save" id="savePhotoBtn"><i class="fas fa-save"></i> Simpan</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal lihat foto besar -->
+        <div class="modal" id="viewPhotoModal">
+            <div class="modal-content photo-viewer">
+                <button class="modal-close" id="viewPhotoModalClose"><i class="fas fa-times"></i></button>
+                <div class="large-photo-container" id="largePhotoContainer">
+                    <!-- Foto besar akan ditampilkan di sini -->
+                </div>
+                <div class="large-photo-details">
+                    <h3 id="largePhotoTitle">Judul Foto</h3>
+                    <p class="large-photo-date" id="largePhotoDate">Tanggal</p>
+                    <p class="large-photo-desc" id="largePhotoDesc">Deskripsi foto</p>
+                </div>
+            </div>
+        </div>
+        
+
+ <!-- 1. KOMPONEN PENCAPAIAN -->
+<div class="box achievements">
+    <h3><i class="fas fa-trophy"></i> Pencapaian</h3>
+    <div class="achievements-container">
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="achievement-info">
+                <div class="achievement-title">Pemula Produktif</div>
+                <div class="achievement-progress">
+                    <div class="progress-bar" style="width: 60%"></div>
+                </div>
+                <div class="achievement-desc">Selesaikan 5 tugas</div>
+            </div>
+        </div>
+        
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <i class="fas fa-fire"></i>
+            </div>
+            <div class="achievement-info">
+                <div class="achievement-title">Streak Harian</div>
+                <div class="achievement-progress">
+                    <div class="progress-bar" style="width: 40%"></div>
+                </div>
+                <div class="achievement-desc">2/5 hari berturut-turut</div>
+            </div>
+        </div>
+        
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <i class="fas fa-check-double"></i>
+            </div>
+            <div class="achievement-info">
+                <div class="achievement-title">Master Penyelesai</div>
+                <div class="achievement-progress">
+                    <div class="progress-bar" style="width: 25%"></div>
+                </div>
+                <div class="achievement-desc">5/20 tugas selesai</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. KOMPONEN UPCOMING EVENTS -->
+<div class="box upcoming-events">
+    <h3><i class="fas fa-calendar-day"></i> Jadwal Mendatang</h3>
+    <div class="events-container">
+        <div class="event-item">
+            <div class="event-date">
+                <div class="event-month">Maret</div>
+                <div class="event-day">11</div>
+            </div>
+            <div class="event-info">
+                <div class="event-title">Ulang Tahun Ell</div>
+                <div class="event-time"><i class="far fa-clock"></i> Seharian</div>
+            </div>
+        </div>
+        
+        <div class="event-item">
+            <div class="event-date">
+                <div class="event-month">Mei</div>
+                <div class="event-day">5</div>
+            </div>
+            <div class="event-info">
+                <div class="event-title">Deadline Tugas Matematika</div>
+                <div class="event-time"><i class="far fa-clock"></i> 23:59</div>
+            </div>
+        </div>
+        
+        <div class="event-item">
+            <div class="event-date">
+                <div class="event-month">Mei</div>
+                <div class="event-day">10</div>
+            </div>
+            <div class="event-info">
+                <div class="event-title">Ujian Tengah Semester</div>
+                <div class="event-time"><i class="far fa-clock"></i> 08:00 - 11:00</div>
+            </div>
+        </div>
+    </div>
+    <button class="add-event-btn"><i class="fas fa-plus"></i> Tambah Jadwal</button>
+</div>
+
+<!-- 3. KOMPONEN CATATAN CEPAT -->
+<div class="box quick-notes">
+    <h3><i class="fas fa-sticky-note"></i> Catatan Cepat</h3>
+    <div class="notes-container">
+        <textarea id="quickNote" placeholder="Tulis catatan cepat di sini..."></textarea>
+        <div class="notes-actions">
+            <button class="save-note"><i class="fas fa-save"></i> Simpan</button>
+            <button class="clear-note"><i class="fas fa-eraser"></i> Hapus</button>
+        </div>
+    </div>
+</div>
+
+<!-- 4. KOMPONEN FOKUS HARI INI -->
+<div class="box focus-today">
+    <h3><i class="fas fa-bullseye"></i> Fokus Hari Ini</h3>
+    <div class="focus-container">
+        <div class="focus-input-container">
+            <input type="text" id="focusInput" placeholder="Apa yang ingin Anda fokuskan hari ini?">
+            <button id="setFocusBtn"><i class="fas fa-check"></i></button>
+        </div>
+        <div class="focus-display" style="display: none;">
+            <p class="focus-text">Menyelesaikan tugas matematika</p>
+            <div class="focus-actions">
+                <button class="complete-focus"><i class="fas fa-check"></i></button>
+                <button class="edit-focus"><i class="fas fa-pen"></i></button>
+                <button class="delete-focus"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 5. KOMPONEN QUOTE INSPIRASI -->
+<div class="box inspiration-quote">
+    <h3><i class="fas fa-quote-left"></i> Quote Hari Ini</h3>
+    <div class="quote-container">
+        <p class="quote-text">"Hal terpenting adalah jangan berhenti bertanya. Rasa ingin tahu memiliki alasan untuk ada."</p>
+        <p class="quote-author">— Albert Einstein</p>
+    </div>
+    <button class="new-quote-btn"><i class="fas fa-sync-alt"></i> Quote Baru</button>
+</div>
+    </div>
+
+    
+    <div class="notification" id="notification">
+        <span class="notification-icon"><i class="fas fa-bell"></i></span>
+        <span id="notificationText">Tugas berhasil ditambahkan!</span>
+        <button class="notification-close" id="notificationClose"><i class="fas fa-times"></i></button>
+    </div>
+    
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <h3 class="modal-title">Edit Tugas</h3>
+            
+            <div class="form-group">
+                <label for="editTaskName">Nama Tugas</label>
+                <input type="text" id="editTaskName" placeholder="Masukkan nama tugas">
+            </div>
+            
+            <div class="form-group">
+                <label for="editTaskCategory">Kategori</label>
+                <select id="editTaskCategory">
+                    <option value="Sekolah">Sekolah</option>
+                    <option value="Pribadi">Pribadi</option>
+                    <option value="Game">Main Game</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="editTaskDate">Tanggal</label>
+                <input type="date" id="editTaskDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="editTaskDesc">Deskripsi (Opsional)</label>
+                <textarea id="editTaskDesc" placeholder="Tambahkan detail tentang tugas ini..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Prioritas</label>
+                <div>
+                    <button type="button" class="priority-btn low" data-priority="low">Rendah</button>
+                    <button type="button" class="priority-btn medium" data-priority="medium">Sedang</button>
+                    <button type="button" class="priority-btn high" data-priority="high">Tinggi</button>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-save" id="saveTaskBtn"><i class="fas fa-save"></i> Simpan</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <button class="modal-close" id="settingsModalClose"><i class="fas fa-times"></i></button>
+            <h3 class="modal-title">Pengaturan</h3>
+            
+            <div class="form-group">
+                <label>Tema Aplikasi</label>
+                <div class="theme-options">
+                    <div class="theme-option theme-cyberpunk selected" data-theme="cyberpunk"></div>
+                    <div class="theme-option theme-twilight" data-theme="twilight"></div>
+                    <div class="theme-option theme-ocean" data-theme="ocean"></div>
+                    <div class="theme-option theme-forest" data-theme="forest"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="userNameInput">Nama Pengguna</label>
+                <input type="text" id="userNameInput" placeholder="Masukkan nama kamu">
+            </div>
+            
+            <div class="form-group">
+                <label>Notifikasi Suara</label>
+                <div>
+                    <input type="checkbox" id="soundNotification" checked>
+                    <label for="soundNotification">Aktifkan suara notifikasi</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Efek Visual</label>
+                <div>
+                    <input type="checkbox" id="visualEffects" checked>
+                    <label for="visualEffects">Aktifkan efek visual (partikel & konfeti)</label>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-save" id="saveSettingsBtn"><i class="fas fa-save"></i> Simpan</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="audio-controls">
+        <div class="audio-btn" id="toggleMusic"><i class="fas fa-music"></i></div>
+        <div class="audio-btn" id="toggleSound"><i class="fas fa-volume-up"></i></div>
+    </div>
+
+    
+    
+    <script src="script.js"></script>
+</html>
