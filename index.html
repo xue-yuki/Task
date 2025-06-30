@@ -63,8 +63,23 @@
         <div class="main-content">
             <div class="box">
                 <h2><i class="fas fa-plus-circle"></i> Tambah Tugas Baru</h2>
+                
+                <!-- [BARU] Fitur Tambah dengan AI -->
+                <div class="ai-task-input-container">
+                    <h4><i class="fas fa-magic"></i> Tambah Cepat dengan AI</h4>
+                    <div class="ai-input-wrapper">
+                        <input type="text" id="aiTaskInput" placeholder="Contoh: Belajar bareng Sasa besok sore...">
+                        <button id="addAiTaskBtn"><i class="fas fa-rocket"></i> Proses</button>
+                    </div>
+                    <div class="ai-loader">
+                        <i class="fas fa-spinner fa-spin"></i> Memproses permintaan...
+                    </div>
+                </div>
+
+                <hr class="ai-divider">
+
                 <div class="task-input">
-                    <input type="text" id="taskInput" placeholder="Masukkan tugas baru...">
+                    <input type="text" id="taskInput" placeholder="Atau masukkan manual di sini...">
                     <select id="categorySelect">
                         <option value="Sekolah">Sekolah</option>
                         <option value="Pribadi">Pribadi</option>
@@ -419,7 +434,7 @@
                 <div class="achievement-desc">5/20 tugas selesai</div>
             </div>
         </div>
-    </div>
+    </div> 
 </div>
 
 <!-- 2. KOMPONEN UPCOMING EVENTS -->
@@ -602,8 +617,6 @@
         <div class="audio-btn" id="toggleMusic"><i class="fas fa-music"></i></div>
         <div class="audio-btn" id="toggleSound"><i class="fas fa-volume-up"></i></div>
     </div>
-
-    
-    
+      
     <script src="script.js"></script>
 </html>
